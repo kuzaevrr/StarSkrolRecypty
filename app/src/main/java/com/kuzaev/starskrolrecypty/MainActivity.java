@@ -62,17 +62,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for (Star star : listStarString) {
-            Log.i("Star", star.getStarImage().split("src=\"")[1].split("\"")[0]);
             Bitmap bitmap = null;
             try {
                 ImageStarDownloadTask imageStarDownloadTask = new ImageStarDownloadTask();
-                bitmap = imageStarDownloadTask.execute(star.getStarImage().split("src=\"")[1].split("\"")[0].trim()).get();
+                bitmap = imageStarDownloadTask.execute(star.getStarImage()).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            listStarObject.add(new Star(star.getStarName().split("alt=\"")[1].split("\"")[0].trim(), bitmap));
+            listStarObject.add(new Star(star.getStarName(), bitmap));
         }
     }
 
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         Matcher matcher1 = pattern1.matcher(lineBuilder);
 
                         while (matcher.find() && matcher1.find()) {
-                            star = new Star(matcher1.group(), matcher.group());
+                            star = new Star(matcher1.group(1), matcher.group(1));
                         }
                         listStringNameStar.add(star);
                         booleanKeyToLogic = false;
