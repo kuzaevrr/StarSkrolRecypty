@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.kuzaev.starskrolrecypty.adapter.AdapterStar;
 import com.kuzaev.starskrolrecypty.objects.Star;
@@ -18,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -49,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
             AdapterStar adapterStar = new AdapterStar(listStarObject);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             recyclerView.setAdapter(adapterStar);
+            adapterStar.setOnNoteClickListener(new AdapterStar.OnNoteClickListener() {
+                @Override
+                public void onNoteClick(int position) {
+                    Intent intent = new Intent(getApplicationContext(), ClicklActivity.class);
+                    intent.putExtra("star", (Serializable) listStarObject.get(position));
+                    startActivity(intent);
+                }
+            });
     }
 
     public void startLogic() {

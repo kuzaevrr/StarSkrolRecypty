@@ -18,9 +18,19 @@ import java.util.List;
 public class AdapterStar extends RecyclerView.Adapter <AdapterStar.HolderAdapterStar> {
 
     List<Star> starList;
+    private OnNoteClickListener onNoteClickListener;
 
     public AdapterStar(List<Star> starList) {
         this.starList = starList;
+    }
+
+    public void setOnNoteClickListener(OnNoteClickListener onNoteClickListener) {
+        this.onNoteClickListener = onNoteClickListener;
+    }
+
+
+    public interface OnNoteClickListener{
+        void onNoteClick(int position);
     }
 
     @NonNull
@@ -51,6 +61,13 @@ public class AdapterStar extends RecyclerView.Adapter <AdapterStar.HolderAdapter
             super(itemView);
             textView = itemView.findViewById(R.id.textView);
             imageView = itemView.findViewById(R.id.imageView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onNoteClickListener != null)
+                        onNoteClickListener.onNoteClick(getAdapterPosition());
+                }
+            });
         }
     }
 
